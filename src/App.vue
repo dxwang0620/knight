@@ -1,30 +1,57 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
+import { ref } from 'vue'
+import Header from '@/components/template/header.vue';
+import Footer from '@/components/template/footer.vue' ; 
+import Menu from '@/components/template/menu.vue';
+
+const openMenu = ref(false);
+
+function toggleMenu() {
+  openMenu.value = !openMenu.value
+}
+
 </script>
 
 <template>
   <div>
-    <a href="https://vite.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-    </a>
+    <Header @toggleMenu="toggleMenu"/>
+    <div id="index">
+      <Menu :openMenu="openMenu" />
+      <router-view v-slot="{ Component }">
+        <transition mode="out-in">
+          <component :is="Component" />
+        </transition>
+      </router-view>
+    </div>
+    <Footer />
   </div>
-  <HelloWorld msg="Vite + Vue" />
+  <!-- <div v-show="loading">loading</div> -->
+
 </template>
 
-<style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
+<style>
+
+* {
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
 }
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
+
+#index {
+  width: 100%;
+  min-height: calc(100vh - 100px);
+  display: flex;
+  flex-direction: column;
+  margin-top: 100px;
+  background: linear-gradient(180deg, #DD9036 30%, #F2295B00 60%);
+  background-color: transparent;
+  /* position: relative; */
+  /* background-color: transparent; */
+  /* background-image: linear-gradient(180deg, #DD9036 48%, #F2295B00 88%); */
 }
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
+
+li {
+  list-style: none;
 }
+
 </style>
